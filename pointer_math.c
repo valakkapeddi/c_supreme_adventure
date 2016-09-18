@@ -1,7 +1,10 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 int main(int argc, char** argv) {
+    
+    cli();
     
     struct_copy();
     
@@ -118,4 +121,35 @@ int struct_copy() {
     x.a = 4;
     
     printf("X has: %d, Y has: %d\n", x.a, y.a);
+}
+
+int cli() {
+	char text[256];
+	printf("Type in some text.\n");
+
+	fgets(text, 256, stdin);
+
+	printf("Original string was %s with %d tokens.\n", text, strlen(text));
+        
+        char delimiters[2] = " ";
+        
+        char** result = 0;
+        result = malloc(sizeof(char*) * 3);
+        size_t idx = 0;
+
+	char* tok = strtok(text, delimiters);
+	
+	int token_counter = 1;
+	while(tok) {
+            *(result + idx++) = strdup(tok);
+            tok = strtok(0, delimiters);            
+            printf("Counter #%d is: %s", token_counter, tok);
+	}
+        
+        int a = 0;
+        for(a = 0; *(result + a); a++) {
+            printf("Item at index %d is: %s\n", a, *(result + a));
+        }
+
+        return 0;
 }
